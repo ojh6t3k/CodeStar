@@ -52,7 +52,8 @@ public class ConnectionUI : MonoBehaviour
 		popupCanvas.gameObject.SetActive(false);
 		settingCommSocket.gameObject.SetActive(false);
 		messageCanvas.gameObject.SetActive(false);
-		appUI.gameObject.SetActive(false);
+		if(appUI != null)
+			appUI.gameObject.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -70,14 +71,16 @@ public class ConnectionUI : MonoBehaviour
 		msgConnecting.gameObject.SetActive(false);
 		msgConnectionFailed.gameObject.SetActive(false);
 		msgLostConnection.gameObject.SetActive(false);
-		appUI.gameObject.SetActive(true);
+		if(appUI != null)
+			appUI.gameObject.SetActive(true);
 	}
 
 	private void OnSerialClose()
 	{
 		disconnect.gameObject.SetActive(false);
 		connect.gameObject.SetActive(true);
-		appUI.gameObject.SetActive(false);
+		if(appUI != null)
+			appUI.gameObject.SetActive(false);
 	}
 
 	private void OnSerialOpenFailed()
