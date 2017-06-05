@@ -6,17 +6,21 @@ using Makist;
 
 public class CodeStarTest : MonoBehaviour
 {
-	public Toggle tourMode;
-	public Toggle correctMode;
-	public Toggle incorrectMode;
-	public Dropdown velocityList;
-	public GameObject completeMessage;
+	public CommandData[] commands;
+	public Text output;
+	public Text input;
+	public ScrollRect scrollRect;
+	public Button clear;
 
 	private SerialComm _serial;
 
+
 	void Awake()
 	{
-		completeMessage.SetActive(false);
+		for(int i=0; i<commands.Length; i++)
+			commands[i].OnCommandSend.AddListener(OnCommandSend);
+
+		clear.onClick.AddListener(OnClearClick);
 	}
 
 	// Use this for initialization
@@ -25,6 +29,8 @@ public class CodeStarTest : MonoBehaviour
 		_serial = FindObjectOfType<SerialComm>();
 		if(_serial == null)
 			Debug.LogError("Can not find SerialComm!");
+		else
+			_serial.OnOpen.AddListener(OnSerialOpened);
 	}
 	
 	// Update is called once per frame
@@ -37,47 +43,78 @@ public class CodeStarTest : MonoBehaviour
 			{
 				for(int i = 0; i < data.Length; i++)
 				{
-					if(data[i] == 33)
-					{
-						completeMessage.SetActive(true);
-						break;
-					}
+					string text = "";
+
+					if(input.text.Length > 0)
+						text += "\n";
+
+					text += string.Format("{0:d} (0x{1:X}) (b", data[i], data[i]);
+					if((data[i] & 128) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					if((data[i] & 64) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					if((data[i] & 32) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					if((data[i] & 16) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					if((data[i] & 8) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					if((data[i] & 4) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					if((data[i] & 2) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					if((data[i] & 1) != 0)
+						text += "1";
+					else
+						text += "0";
+
+					text += ")";
+					input.text += text;
 				}
+
+				scrollRect.verticalNormalizedPosition = 0;
 			}
 		}
 	}
 
-	public void Cmd_Go()
+	private void OnSerialOpened()
 	{
-		if(_serial.IsOpen)
-		{
-			byte data = 32;
-			if(tourMode.isOn)
-				data += 1;
-			else if(correctMode.isOn)
-				data += 2;
-			else if(incorrectMode.isOn)
-				data += 3;
-			_serial.Write(new byte[] { data });
-		}
+		output.text = "";
+		input.text = "";
 	}
 
-	public void Cmd_Velocity()
+	private void OnClearClick()
 	{
-		if(_serial.IsOpen)
-		{
-			byte data = 48;
-			data += (byte)velocityList.value;
-			_serial.Write(new byte[] { data });
-		}
+		input.text = "";
+		scrollRect.verticalNormalizedPosition = 1;
 	}
 
-	public void Cmd_Home()
+	private void OnCommandSend(CommandData sender, byte value)
 	{
 		if(_serial.IsOpen)
 		{
-			byte data = 64;
-			_serial.Write(new byte[] { data });
+			_serial.Write(new byte[] { value });
 		}
 	}
 }

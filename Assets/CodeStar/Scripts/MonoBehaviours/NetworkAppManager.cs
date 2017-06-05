@@ -179,6 +179,16 @@ public class NetworkAppManager : NetworkManager
 	{
 		if(serial.IsOpen)
 		{
+			byte[] packet = new byte[6];
+			packet[0] = 0xff;
+			packet[1] = 0x55;
+			packet[2] = (byte)(num & 0x00ff);
+			packet[3] = (byte)~packet[2];
+			packet[4] = (byte)(num & 0xff00);
+			packet[5] = (byte)~packet[4];
+
+			serial.Write(packet);
+
 			Debug.Log("Action " + num);
 		}
 	}
