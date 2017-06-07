@@ -8,7 +8,7 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 {
 	public Canvas rootCanvas;
 	public Transform dragRoot;
-	public DragSlot targetSlot;
+	public DragSlot[] targetSlots;
 	#if PLAYMAKER
 	public string eventName = "DROP ITEM";
 	#endif
@@ -41,8 +41,8 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		_parent = transform.parent;
 		_rectTransform.SetParent(dragRoot);
 
-		if(targetSlot != null)
-			targetSlot.SetDropItem(this);
+		foreach(DragSlot slot in targetSlots)
+			slot.SetDropItem(this);
 	}
 
 	public void OnDrag (PointerEventData eventData)
