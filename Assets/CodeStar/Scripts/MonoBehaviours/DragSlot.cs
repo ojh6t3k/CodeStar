@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 #if PLAYMAKER
 using HutongGames.PlayMaker;
 #endif
@@ -11,9 +12,14 @@ public class DragSlot : MonoBehaviour, IDropHandler
 {
 	#if PLAYMAKER
 	public PlayMakerFSM targetFSM;
+	public string eventName = "DROP ITEM";
 	#endif
 
-	private DragItem _item;
+	public bool itemReplacable = false;
+	public UnityEvent OnDropItem;
+
+	private DragItem _dragItem;
+	private DragItem _dropItem;
 
 	void Awake()
 	{
@@ -33,8 +39,19 @@ public class DragSlot : MonoBehaviour, IDropHandler
 
 	public void OnDrop(PointerEventData eventData)
 	{
-		if(_item == null)
+		if(_dragItem == null)
 			return;
+
+		if(_dropItem != null)
+		{
+			if(_dragItem != null && itemReplacable)
+				_dropItem.dragSlot = _dragItem.dragSlot;
+			else
+				_dropItem.dragSlot = null;
+		}
+
+		_dropItem = _dragItem;
+		_dropItem.DropSlot(this);
 
 		#if PLAYMAKER
 		if(targetFSM != null)
@@ -43,16 +60,44 @@ public class DragSlot : MonoBehaviour, IDropHandler
 			fsmEventTarget.target = FsmEventTarget.EventTarget.FSMComponent;
 			fsmEventTarget.fsmComponent = targetFSM;
 
-			targetFSM.Fsm.Event(fsmEventTarget, _item.eventName);
+			targetFSM.Fsm.Event(fsmEventTarget, eventName);
 		}
 		#endif
 
-		_item.gameObject.SetActive(false);
-		_item = null;
+		OnDropItem.Invoke();
 	}
 
-	public void SetDropItem(DragItem item)
+	public DragItem dragItem
 	{
-		_item = item;
+		set
+		{
+			_dragItem = value;
+		}
+		get
+		{
+			return _dragItem;
+		}
+	}
+
+	public DragItem dropItem
+	{
+		set
+		{
+			if(_dropItem != null)
+			{
+				if(value != null && itemReplacable)
+					_dropItem.dragSlot = value.dragSlot;
+				else
+					_dropItem.dragSlot = null;
+			}
+
+			_dropItem = value;
+			if(_dropItem != null)
+				_dropItem.dragSlot = this;
+		}
+		get
+		{
+			return _dropItem;
+		}
 	}
 }
