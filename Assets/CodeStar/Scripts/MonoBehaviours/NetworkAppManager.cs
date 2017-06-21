@@ -23,6 +23,7 @@ public class NetworkAppManager : NetworkManager
 
 	void Awake()
 	{
+		serial.OnOpen.AddListener(OnSerialOpen);
 		isServer.onValueChanged.AddListener(OnIsServerClick);
 		start.onClick.AddListener(OnStartClick);
 		stop.onClick.AddListener(OnStopClick);
@@ -43,7 +44,15 @@ public class NetworkAppManager : NetworkManager
 	// Update is called once per frame
 	void Update ()
 	{
-
+		if(serial.IsOpen)
+		{
+			byte[] data = serial.Read();
+			if(data != null)
+			{
+				for(int i = 0; i < data.Length; i++)
+					Debug.Log(data[i]);
+			}
+		}
 	}
 
 	public override void OnStartServer()
@@ -175,6 +184,50 @@ public class NetworkAppManager : NetworkManager
 		}
 	}
 
+	private void OnSerialOpen()
+	{
+		Invoke("TestComm", 1f);
+		Invoke("TestComm", 2f);
+	}
+
+	void TestComm()
+	{
+		byte[] packet = new byte[10];
+		packet[0] = 0xff; // header1
+		packet[1] = 0xff; // header2
+		packet[2] = 0xfd; // header3
+		packet[3] = 0x00; // reserved
+		packet[4] = 0xc8; // id (200)
+		packet[5] = 0x03; // length0
+		packet[6] = 0x00; // length1
+		packet[7] = 0x01; // instruction
+		ushort crc = update_crc(0, ref packet);
+		packet[8] = (byte)(crc & 0xFF); // crc0
+		packet[9] = (byte)((crc >> 8) & 0xFF); // crc1
+
+		/*
+		byte[] packet = new byte[13];
+		packet[0] = 0xff; // header1
+		packet[1] = 0xff; // header2
+		packet[2] = 0xfd; // header3
+		packet[3] = 0x00; // reserved
+		packet[4] = 0xc8; // id (200)
+		packet[5] = 0x06; // length0
+		packet[6] = 0x00; // length1
+		packet[7] = 0x03; // instruction (Write)
+		packet[8] = 0x15; // address0 (Set Mode)
+		packet[9] = 0x00; // address1
+		packet[10] = 0x04; // data (BYTE)
+		ushort crc = update_crc(0, ref packet);
+		packet[11] = (byte)(crc & 0xFF); // crc0
+		packet[12] = (byte)((crc >> 8) & 0xFF); // crc1
+		*/
+
+		serial.Write(packet);
+
+		Debug.Log("TestComm");
+	}
+
 	public void DoAction(int num)
 	{
 		if(serial.IsOpen)
@@ -190,10 +243,8 @@ public class NetworkAppManager : NetworkManager
 			packet[7] = 0x03; // instruction (Write)
 			packet[8] = 0x42; // address0 (Set Motion)
 			packet[9] = 0x00; // address1
-			packet[10] = (byte)(num & 0xFF); // data0
-			packet[11] = (byte)((num >> 8) & 0xFF); // data1
-			packet[12] = 0; // crc0
-			packet[13] = 0; // crc1
+			packet[10] = (byte)(num & 0xFF); // data (WORD)
+			packet[11] = (byte)((num >> 8) & 0xFF); // data (WORD)
 			ushort crc = update_crc(0, ref packet);
 			packet[12] = (byte)(crc & 0xFF); // crc0
 			packet[13] = (byte)((crc >> 8) & 0xFF); // crc1
@@ -242,7 +293,7 @@ public class NetworkAppManager : NetworkManager
 			0x8213, 0x0216, 0x021C, 0x8219, 0x0208, 0x820D, 0x8207, 0x0202
 		};
 
-		for(j = 0; j < data_blk_ptr.Length; j++)
+		for(j = 0; j < (data_blk_ptr.Length - 2); j++)
 		{
 			i = (ushort)(((ushort)(crc_accum >> 8) ^ data_blk_ptr[j]) & 0xFF);
 			crc_accum = (ushort)((crc_accum << 8) ^ crc_table[i]);
