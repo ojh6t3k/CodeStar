@@ -34,7 +34,7 @@ public class ScoreUI : MonoBehaviour
 
 		_expValue = expValue;
 		if(exp != null)
-			exp.text = string.Format("{0:n0}", _expValue);
+			exp.text = ToScoreString(_expValue);
 	}
 	
 	// Update is called once per frame
@@ -57,7 +57,7 @@ public class ScoreUI : MonoBehaviour
 			}
 			
 			if(exp != null)
-				exp.text = string.Format("{0:n0}", _expValue);
+				exp.text = ToScoreString(_expValue);
 		}
 
 		if(starValue != _starValue)
@@ -71,5 +71,10 @@ public class ScoreUI : MonoBehaviour
 					stars[i].isOn = false;
 			}
 		}
+	}
+
+	static public string ToScoreString(int value)
+	{
+		return string.Format("{0:n0}", value);
 	}
 }

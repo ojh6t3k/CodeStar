@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Makist;
+using Makist.IO;
 
 [CustomEditor(typeof(SerialComm))]
 public class SerialCommEditor : Editor

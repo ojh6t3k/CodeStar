@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Makist;
+using Makist.IO;
 
 
 public class ConnectionUI : MonoBehaviour

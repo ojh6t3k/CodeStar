@@ -9,7 +9,7 @@ using System.IO.Ports;
 #endif
 
 
-namespace Makist
+namespace Makist.IO
 {
 	[AddComponentMenu("Makist/Communication/SerialComm")]
 	public class SerialComm : CommSocket

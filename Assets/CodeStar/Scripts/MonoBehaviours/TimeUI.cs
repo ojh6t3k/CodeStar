@@ -23,11 +23,7 @@ public class TimeUI : MonoBehaviour
 	{
 		if(bestTime != null)
 		{
-			int minute = (int)(bestTimeValue / 6000f);
-			int second = (int)(bestTimeValue % 6000f);
-			second = (int)(second / 100f);
-			int millis = (int)(bestTimeValue % 100f);
-			bestTime.text = string.Format("{0:d2}:{1:d2}:{2:d2}", minute, second, millis);
+			bestTime.text = ToTimeString(bestTimeValue);
 		}
 	}
 	
@@ -37,11 +33,17 @@ public class TimeUI : MonoBehaviour
 		lapTimeValue += (int)(Time.deltaTime * 100f);
 		if(lapTime != null)
 		{
-			int minute = (int)(lapTimeValue / 6000f);
-			int second = (int)(lapTimeValue % 6000f);
-			second = (int)(second / 100f);
-			int millis = (int)(lapTimeValue % 100f);
-			lapTime.text = string.Format("{0:d2}:{1:d2}:{2:d2}", minute, second, millis);
+			lapTime.text = ToTimeString(lapTimeValue);
 		}
+	}
+
+	static public string ToTimeString(int timeValue)
+	{
+		int minute = (int)(timeValue / 6000f);
+		int second = (int)(timeValue % 6000f);
+		second = (int)(second / 100f);
+		int millis = (int)(timeValue % 100f);
+
+		return string.Format("{0:d2}:{1:d2}:{2:d2}", minute, second, millis);
 	}
 }

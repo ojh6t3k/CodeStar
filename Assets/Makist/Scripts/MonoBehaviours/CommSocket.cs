@@ -4,7 +4,7 @@ using System;
 using UnityEngine.Events;
 
 
-namespace Makist
+namespace Makist.IO
 {
 	[Serializable]
 	public class CommDevice
