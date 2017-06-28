@@ -15,8 +15,10 @@ public class SpeedUI : MonoBehaviour
 	public float maxNeedleAngle = 140f;
 	public int maxSpeedValue = 100;
 	public int speedValue = 0;
+	public float testSpeedValue = 0f;
 
 	private int _speedValue = 0;
+	private float _testSpeedValue = 0f;
 	private int _diff;
 	private int _state = 2;
 	private float _time;
@@ -27,10 +29,25 @@ public class SpeedUI : MonoBehaviour
 		
 	}
 
+	void OnEnable()
+	{
+		_testSpeedValue = testSpeedValue;
+		_speedValue = speedValue;
+
+		_time = 0f;
+		_state = 2;
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
 		_time += Time.deltaTime;
+
+		if(testSpeedValue != _testSpeedValue)
+		{
+			_testSpeedValue = testSpeedValue;
+			speedValue = (int)_testSpeedValue;
+		}
 
 		speedValue = Mathf.Clamp(speedValue, 0, maxSpeedValue);
 		if(speedValue != _speedValue)

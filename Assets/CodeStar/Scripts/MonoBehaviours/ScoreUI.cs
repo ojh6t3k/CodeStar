@@ -10,9 +10,13 @@ public class ScoreUI : MonoBehaviour
 	public Text exp;
 	public int starValue = 0;
 	public int expValue = 0;
+	public float testStarValue = 0f;
+	public float testExpValue = 0f;
 
 	private int _starValue = 0;
 	private int _expValue = 0;
+	private float _testStarValue = 0;
+	private float _testExpValue = 0;
 
 
 	// Use this for initialization
@@ -23,6 +27,9 @@ public class ScoreUI : MonoBehaviour
 
 	void OnEnable()
 	{
+		_testStarValue = testStarValue;
+		_testExpValue = testExpValue;
+
 		_starValue = starValue;
 		for(int i = 0; i < stars.Length; i++)
 		{
@@ -40,6 +47,18 @@ public class ScoreUI : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(testStarValue != _testStarValue)
+		{
+			_testStarValue = testStarValue;
+			starValue = (int)_testStarValue;
+		}
+
+		if(testExpValue != _testExpValue)
+		{
+			_testExpValue = testExpValue;
+			expValue = (int)_testExpValue;
+		}
+
 		if(expValue != _expValue)
 		{
 			int diff = (int)Mathf.Clamp(Mathf.Abs(expValue - _expValue), 0, (int)(Time.deltaTime * 1000f));
