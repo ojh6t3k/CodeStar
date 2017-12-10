@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace Makist.Input
 {
+	[AddComponentMenu("Makist/Input/VirtualKeyboard")]
 	public class VirtualKeyboard : MonoBehaviour
 	{
 	    public VirtualKeyboardInputField inputField = null;

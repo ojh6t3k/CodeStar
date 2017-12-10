@@ -84,11 +84,11 @@ public class SpeedUI : MonoBehaviour
 
 		value = Mathf.Clamp(value, 0, maxSpeedValue);
 		float ratio = Mathf.Clamp((float)value / (float)maxSpeedValue, 0f, 1f);
-		float angle = (maxNeedleAngle - minNeedleAngle) * ratio + minNeedleAngle;
+        float angle = (maxNeedleAngle - minNeedleAngle) * ratio + minNeedleAngle;
 		if(needle != null)
 		{
 			Vector3 eulerAngle = needle.localEulerAngles;
-			eulerAngle.z = -angle;
+			eulerAngle.z = angle;
 			needle.localEulerAngles = eulerAngle;
 		}
 		if(speed != null)

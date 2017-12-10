@@ -15,7 +15,7 @@ public class NetworkAppManager : NetworkManager
 	public Text ipAddress;
 	public InputField serverIP;
 	
-	public SerialComm serial;
+	public CommSerial serial;
 	public GameObject connectionUI;
 
 	private int _clientNum = 0;

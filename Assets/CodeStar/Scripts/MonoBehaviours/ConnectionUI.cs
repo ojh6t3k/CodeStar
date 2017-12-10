@@ -7,7 +7,7 @@ using Makist.IO;
 
 public class ConnectionUI : MonoBehaviour
 {
-	public SerialComm serialComm;
+	public CommSerial commSerial;
 	public Button connect;
 	public Button disconnect;
 	public Button quit;
@@ -27,13 +27,13 @@ public class ConnectionUI : MonoBehaviour
 
 	void Awake()
 	{
-		serialComm.OnOpen.AddListener(OnSerialOpen);
-		serialComm.OnClose.AddListener(OnSerialClose);
-		serialComm.OnOpenFailed.AddListener(OnSerialOpenFailed);
-		serialComm.OnErrorClosed.AddListener(OnSerialErrorClosed);
-		serialComm.OnStartSearch.AddListener(OnSerialStartSearch);
-		serialComm.OnFoundDevice.AddListener(OnSerialFoundDevice);
-		serialComm.OnStopSearch.AddListener(OnSerialStopSearch);
+		commSerial.OnOpen.AddListener(OnSerialOpen);
+		commSerial.OnClose.AddListener(OnSerialClose);
+		commSerial.OnOpenFailed.AddListener(OnSerialOpenFailed);
+		commSerial.OnErrorClosed.AddListener(OnSerialErrorClosed);
+		commSerial.OnStartSearch.AddListener(OnSerialStartSearch);
+		commSerial.OnFoundDevice.AddListener(OnSerialFoundDevice);
+		commSerial.OnStopSearch.AddListener(OnSerialStopSearch);
 
 		connect.onClick.AddListener(OnConnectClick);
 		disconnect.onClick.AddListener(OnDisconnectClick);
@@ -105,12 +105,12 @@ public class ConnectionUI : MonoBehaviour
 
 	private void OnSerialStopSearch()
 	{
-		for(int i=0; i<serialComm.foundDevices.Count; i++)
+		for(int i=0; i<commSerial.foundDevices.Count; i++)
 		{
-			if(serialComm.device.Equals(serialComm.foundDevices[i]))
+			if(commSerial.device.Equals(commSerial.foundDevices[i]))
 			{
 				if(portList.value == i)
-					portList.captionText.text = serialComm.device.name;
+					portList.captionText.text = commSerial.device.name;
 				else
 					portList.value = i;
 
@@ -118,7 +118,7 @@ public class ConnectionUI : MonoBehaviour
 			}
 		}
 
-		if(serialComm.foundDevices.Count > 0)
+		if(commSerial.foundDevices.Count > 0)
 			portList.captionText.text = portList.options[0].text;
 		else
 		{
@@ -141,17 +141,17 @@ public class ConnectionUI : MonoBehaviour
 		okCommSocket.interactable = true;
 		portList.options.Clear();
 
-		serialComm.StartSearch();
+		commSerial.StartSearch();
 	}
 
 	private void OnDisconnectClick()
 	{
-		serialComm.Close();
+		commSerial.Close();
 	}
 
 	private void OnQuitClick()
 	{
-		serialComm.Close();
+		commSerial.Close();
 		Application.Quit();
 	}
 
@@ -163,9 +163,9 @@ public class ConnectionUI : MonoBehaviour
 	private void OnCommSocketOKClick()
 	{
 		if(portList.options.Count > 0)
-			serialComm.device = new CommDevice(serialComm.foundDevices[portList.value]);
+			commSerial.device = new CommDevice(commSerial.foundDevices[portList.value]);
 
-		serialComm.Open();
+		commSerial.Open();
 
 		popupCanvas.gameObject.SetActive(false);
 		settingCommSocket.gameObject.SetActive(false);

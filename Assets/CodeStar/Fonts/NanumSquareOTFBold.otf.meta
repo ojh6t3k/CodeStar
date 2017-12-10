@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: e0814ffd59a644458b9765cd13801337
+timeCreated: 1502592895
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: NanumSquareOTF
+  fontNames:
+  - NanumSquareOTF
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 248827e453530494f84cafa8c0b5e9f8, type: 3}
+  - {fileID: 12800000, guid: b85fa01fd0bf44e7a939712fa367d2a1, type: 3}
+  - {fileID: 12800000, guid: 6497f8af7866649fe81aa15b225f4982, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

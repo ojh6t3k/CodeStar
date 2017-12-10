@@ -12,7 +12,7 @@ public class CodeStarTest : MonoBehaviour
 	public ScrollRect scrollRect;
 	public Button clear;
 
-	private SerialComm _serial;
+	private CommSerial _serial;
 
 
 	void Awake()
@@ -26,9 +26,9 @@ public class CodeStarTest : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		_serial = FindObjectOfType<SerialComm>();
+        _serial = FindObjectOfType<CommSerial>();
 		if(_serial == null)
-			Debug.LogError("Can not find SerialComm!");
+			Debug.LogError("Can not find CommSerial!");
 		else
 			_serial.OnOpen.AddListener(OnSerialOpened);
 	}

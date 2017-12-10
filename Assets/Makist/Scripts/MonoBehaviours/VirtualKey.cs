@@ -17,6 +17,7 @@ namespace Makist.Input
 	}
 
 	[RequireComponent(typeof(Button))]
+	[AddComponentMenu("Makist/Input/VirtualKey")]
 	public class VirtualKey : MonoBehaviour
 	{
 	    public enum kType { kCharacter, kOther, kReturn, kSpace, kBackspace, kShift, kTab, kCapsLock, kHangul}

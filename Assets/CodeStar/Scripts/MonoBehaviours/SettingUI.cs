@@ -12,7 +12,7 @@ public class SettingUI : MonoBehaviour
 	public Dropdown webCamList;
 	public Button webCamConnect;
 	public RawImage webCamPreview;
-	public SerialComm codeStarComm;
+	public CommSerial codeStarComm;
 	public Dropdown codeStarPort;
 	public Button codeStarConnect;
 	public Button codeStarDisconnect;

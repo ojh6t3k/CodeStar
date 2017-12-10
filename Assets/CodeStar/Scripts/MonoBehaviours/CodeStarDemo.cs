@@ -30,7 +30,7 @@ public class CodeStarDemo : MonoBehaviour
 	public GameObject test;
 	public SettingUI settingUI;
 	public TimeUI timeUI;
-	public SerialComm codeStarComm;
+	public CommSerial codeStarComm;
 	public WebCamManager webCamManager;
 	public RawImage video;
 

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace Makist.Input
 {
 	[RequireComponent(typeof(InputField))]
+	[AddComponentMenu("Makist/Input/VirtualKeyboardInputField")]
 	public class VirtualKeyboardInputField : MonoBehaviour
 	{
 		AutomateKR	mAutomateKR = new AutomateKR();

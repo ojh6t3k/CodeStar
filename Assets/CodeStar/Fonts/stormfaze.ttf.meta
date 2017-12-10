@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d7ee221610019425c8be1b69aece8a0f
+timeCreated: 1501640546
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Stormfaze
+  fontNames:
+  - Stormfaze
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
